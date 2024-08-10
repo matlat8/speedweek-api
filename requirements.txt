@@ -1,0 +1,8 @@
+fastapi[standard]
+psycopg2-binary==2.9.9
+uvicorn
+sqlalchemy
+asyncpg
+loguru
+pydantic
+pydantic_settings
