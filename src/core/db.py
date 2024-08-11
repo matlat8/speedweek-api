@@ -9,7 +9,8 @@ from loguru import logger
 # Import Models
 # from core.models.auth import User
 from src.config import settings
-# import log_config
+
+import src.log_config
 
 
 Base = declarative_base()
@@ -17,7 +18,7 @@ Base = declarative_base()
 # Database Configuration
 DATABASE_URL = (
     f"postgresql+asyncpg://{settings.db_user}:"
-    f"{settings.db_password}@{settings.db_host}:"
+    f"{settings.db_pass}@{settings.db_host}:"
     f"{settings.db_port}/{settings.db_name}"
 )
 
@@ -46,12 +47,12 @@ async def get_db_session():
             return  # If session creation is successful, exit the function
         except InterfaceError as e:
             if "connection is closed" in str(e) and session:
-                logger.debug("Retrying database connection")
+                logger.warning("Retrying database connection")
                 await session.close()
             if attempt + 1 < retry_count:
                 attempt += 1
                 await asyncio.sleep(wait)
-                logger.debug(f"Retrying database connection. Attempt {attempt}")
+                logger.warning(f"Retrying database connection. Attempt {attempt}")
                 wait *= 2  # Exponential backoff
             else:
                 logger.error("Failed to connect to the database")
@@ -68,4 +69,4 @@ async def get_db_session():
 # Utility Functions 
 async def create_tables():
     async with engine.begin() as conn:
-        await conn.run_sync(User.metadata.create_all)
+        await conn.run_sync(Base.metadata.create_all)
