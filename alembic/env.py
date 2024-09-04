@@ -9,6 +9,9 @@ from alembic import context
 # access to the values within the .ini file in use.
 config = context.config
 
+from src.config import settings
+config.set_main_option('sqlalchemy.url', f'postgresql://{settings.db_user}:{settings.db_pass}@{settings.db_host}:{settings.db_port}/{settings.db_name}')
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -21,6 +24,7 @@ if config.config_file_name is not None:
 
 from src.core.db import Base
 import src.auth.models
+import src.leagues.models
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

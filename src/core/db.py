@@ -34,7 +34,7 @@ AsyncSessionFactory = sessionmaker(
 
 
 # Dependency for Sessions
-async def get_db_session():
+async def get_db_session() -> AsyncSession:
     retry_count = 3
     wait = 1
     attempt = 0
