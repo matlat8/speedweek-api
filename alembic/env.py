@@ -25,6 +25,9 @@ if config.config_file_name is not None:
 from src.core.db import Base
 import src.auth.models
 import src.leagues.models
+import src.seasons.models
+import src.teams.models
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
