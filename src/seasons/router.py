@@ -10,6 +10,7 @@ from src.seasons.crud import create_season, get_league_seasons, get_active_seaso
 
 seasons = APIRouter(prefix="/leagues/{league_id}/seasons")
 
+# /league/{league_id}/seasons
 @seasons.get("")
 async def rt_get_seasons(league_id: int, 
                          user: User = Depends(current_active_user), 
@@ -22,6 +23,7 @@ async def rt_get_seasons(league_id: int,
     
     return {"data": active_seasons}
 
+# /league/{league_id}/seasons
 @seasons.post("")
 async def rt_create_season(season: NewSeason,
                         league_id: int,
@@ -32,6 +34,7 @@ async def rt_create_season(season: NewSeason,
     
     return {"data": seasonn}
 
+# /league/{league_id}/seasons/{season_id}
 @seasons.get("/{season_id}")
 async def get_season(season_id: int, league_id: int, db = Depends(get_db_session)):
     season = await get_league_seasons(db=db, league_id=league_id)
