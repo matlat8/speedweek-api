@@ -16,6 +16,6 @@ async def rt_get_weeks(league_id: int, season_id: int,
 async def rt_create_week(league_id: int, season_id: int, 
                          user: User = Depends(current_active_user), 
                          db = Depends(get_db_session)):
-    new_week = await create_new_week(db=db, league_id=league_id, season_id=season_id)
+    new_week = await create_new_week(db=db, league_id=league_id, season_id=season_id, user_id=user.id)
     
     return {"data": new_week}
