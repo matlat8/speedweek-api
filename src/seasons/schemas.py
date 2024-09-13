@@ -8,4 +8,3 @@ class NewSeason(BaseModel):
     name: str
     start_date: datetime.date
     end_date: datetime.date
-    league_id: int

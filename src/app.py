@@ -7,6 +7,7 @@ from src.log_config import logger
 from src.auth.router import auth
 from src.leagues.router import leagues
 from src.teams.router import teams
+from src.seasons.router import seasons
 from version import __version__
 
 app = FastAPI()
@@ -22,6 +23,7 @@ app.add_middleware(
 app.include_router(auth)
 app.include_router(leagues)
 app.include_router(teams)
+app.include_router(seasons)
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):

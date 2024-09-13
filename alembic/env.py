@@ -27,6 +27,7 @@ import src.auth.models
 import src.leagues.models
 import src.seasons.models
 import src.teams.models
+import src.weeks.models
 
 target_metadata = Base.metadata
 

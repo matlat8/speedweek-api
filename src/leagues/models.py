@@ -18,5 +18,19 @@ class League(Base):
     invite_token = Column(String, nullable=True)
     created_at = Column(TIMESTAMP, default=datetime.now())
     updated_at = Column(TIMESTAMP, default=datetime.now())
+    seasons = relationship("Season", back_populates="league", cascade="all, delete-orphan")
 
+class LeagueUser(Base):
+    __tablename__ = "league_user"
+    id = Column(Integer, primary_key=True, index=True)
+    league_id = Column(Integer, ForeignKey("league.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUID, ForeignKey("user.id"), nullable=False)
+    is_owner = Column(Boolean, nullable=False, default=False)
+    is_admin = Column(Boolean, nullable=False, default=False)
+    is_member = Column(Boolean, nullable=False, default=True)
+    is_pending = Column(Boolean, nullable=False, default=False)
+    is_banned = Column(Boolean, nullable=False, default=False)
+    created_at = Column(TIMESTAMP, default=datetime.now())
+    updated_at = Column(TIMESTAMP, default=datetime.now())
+    UniqueConstraint('league_id', 'user_id', name='unique_league_user')
     
