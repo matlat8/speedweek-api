@@ -28,6 +28,8 @@ import src.leagues.models
 import src.seasons.models
 import src.teams.models
 import src.weeks.models
+import src.tracks.models
+import src.cars.models
 
 target_metadata = Base.metadata
 

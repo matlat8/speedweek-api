@@ -9,3 +9,7 @@ __pycache__/*
 
 log.json
 *.log
+
+.vscode/PythonImportHelper-v2-Completion.json
+
+temp/*

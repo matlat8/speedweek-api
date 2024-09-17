@@ -24,6 +24,12 @@ async def get_league_seasons(db: AsyncSession,
     result = await db.execute(query)
     return result.scalars().all()
 
+async def get_season_info(db: AsyncSession,
+                          season_id: int):
+    query = select(Season).where(Season.id == season_id)
+    result = await db.execute(query)
+    return result.scalars().first()
+
 async def get_active_seasons(db: AsyncSession, league_ids: List[int]):
     query = select(Season) \
         .where(Season.league_id.in_(league_ids)) \

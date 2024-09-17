@@ -8,6 +8,10 @@ class Week(Base):
     id = Column(Integer, primary_key=True, index=True)
     week_num = Column(Integer, nullable=False)
     season_id = Column(Integer, ForeignKey("season.id"), nullable=False)
+    car_id = Column(Integer, ForeignKey("car.id", ondelete='CASCADE'), nullable=False)
+    track_id = Column(Integer, ForeignKey("track.id", ondelete='CASCADE'), nullable=False)
+    start_date = Column(DateTime(timezone=True), nullable=False)
+    end_date = Column(DateTime(timezone=True), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     

@@ -8,6 +8,10 @@ from src.auth.router import auth
 from src.leagues.router import leagues
 from src.teams.router import teams
 from src.seasons.router import seasons
+from src.weeks.router import weeks
+from src.cars.router import cars
+from src.tracks.router import tracks
+
 from version import __version__
 
 app = FastAPI()
@@ -24,6 +28,9 @@ app.include_router(auth)
 app.include_router(leagues)
 app.include_router(teams)
 app.include_router(seasons)
+app.include_router(weeks)
+app.include_router(cars)
+app.include_router(tracks)
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
