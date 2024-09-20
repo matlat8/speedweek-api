@@ -1,3 +1,4 @@
+import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
 from datetime import datetime, timezone
@@ -7,6 +8,7 @@ from src.leagues.crud import get_league_members
 from src.weeks.models import Week
 from src.weeks.schemas import NewWeek
 from src.weeks import crud
+from src.weeks import g61
 
 async def create_new_week(db: AsyncSession,
                           league_id: int,
@@ -48,3 +50,21 @@ async def season_weeks(db: AsyncSession, season_id: int):
         weeks.append(week_data)
     
     return weeks
+
+async def get_week(db: AsyncSession, week_id: int):
+    week = await crud.get_week(db=db, week_id=week_id)
+    return week
+
+async def get_week_laps(db: AsyncSession, garage_client: httpx.AsyncClient, week_id: int):
+    week = await crud.get_week(db=db, week_id=week_id)
+    end_date_aware = make_offset_aware(week.end_date)
+    current_time_aware = datetime.now(timezone.utc)
+    
+    if end_date_aware > current_time_aware:
+        data = await g61.get_laps(week.car_id, week.track_id, week.start_date, garage_client)
+    else:
+        # database result laps
+        data = await g61.get_laps(week.car_id, week.track_id, week.start_date, garage_client) 
+    
+    return data
+

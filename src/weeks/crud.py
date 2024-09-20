@@ -9,6 +9,7 @@ from src.weeks.schemas import NewWeek
 from src.weeks.models import Week
 from src.tracks.models import Track
 from src.cars.models import Car
+from src.auth.models import Garage61User
 
 
 async def create_week(db: AsyncSession,
@@ -33,5 +34,11 @@ async def get_season_weeks(db: AsyncSession,
 async def get_seasons_latest_week(db: AsyncSession,
                               season_id: int) -> Week:
     query = select(Week).where(Week.season_id == season_id).order_by(Week.week_num.desc()).limit(1)
+    result = await db.execute(query)
+    return result.scalars().first()
+
+async def get_week(db: AsyncSession,
+                   week_id: int) -> Week:
+    query = select(Week).where(Week.id == week_id)
     result = await db.execute(query)
     return result.scalars().first()

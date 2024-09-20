@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     db_port: int
     db_name: str
     jwt_secret: str
+    garage61_client_id: str
+    garage61_client_secret: str
 
 
     class Config:
