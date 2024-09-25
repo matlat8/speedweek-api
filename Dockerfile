@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12
 
 # Install Rust and Cargo
 RUN apt-get update && apt-get install -y curl && \
@@ -14,6 +14,5 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 EXPOSE 8000
-WORKDIR /api
 
 CMD ["gunicorn", "main:app"]
