@@ -7,5 +7,5 @@ sqlalchemy
 asyncpg
 loguru
 pydantic
-pydantic_settings
+pydantic-settings
 alembic

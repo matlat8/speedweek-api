@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.11
 
 # Install Rust and Cargo
 RUN apt-get update && apt-get install -y curl && \
@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY . .
 EXPOSE 8000
 
-CMD ["gunicorn", "main:app"]
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:8000"]
