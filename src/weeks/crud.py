@@ -5,17 +5,21 @@ from sqlalchemy import desc
 from datetime import datetime
 import uuid
 
-from src.weeks.schemas import NewWeek
+from src.weeks import schemas
 from src.weeks.models import Week
 from src.tracks.models import Track
 from src.cars.models import Car
 from src.auth.models import Garage61User
 
+from src.tracks.schemas import TrackModel
+from src.cars.schemas import CarModel
+from src.weeks.schemas import WeekModel
+
 
 async def create_week(db: AsyncSession,
                           week_num: int,
                           season_id: int,
-                          new_week: NewWeek) -> Week:
+                          new_week: schemas.NewWeek) -> Week:
     week = Week(week_num=week_num, season_id=season_id, **new_week.model_dump())
     db.add(week)
     await db.flush()
@@ -37,8 +41,16 @@ async def get_seasons_latest_week(db: AsyncSession,
     result = await db.execute(query)
     return result.scalars().first()
 
-async def get_week(db: AsyncSession,
-                   week_id: int) -> Week:
-    query = select(Week).where(Week.id == week_id)
+async def get_week(db: AsyncSession, week_id: int) -> schemas.WeekWithDetails:
+    query = select(Week, Track, Car) \
+        .join(Car, Week.car_id == Car.id) \
+        .join(Track, Week.track_id == Track.id) \
+        .where(Week.id == week_id)
     result = await db.execute(query)
-    return result.scalars().first()
+    week, track, car = result.first()
+    week_model = schemas.WeekWithDetails(
+        week=WeekModel.model_validate(week),
+        track=TrackModel.model_validate(track),
+        car=CarModel.model_validate(car)
+    )
+    return week_model

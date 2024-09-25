@@ -57,14 +57,14 @@ async def get_week(db: AsyncSession, week_id: int):
 
 async def get_week_laps(db: AsyncSession, garage_client: httpx.AsyncClient, week_id: int):
     week = await crud.get_week(db=db, week_id=week_id)
-    end_date_aware = make_offset_aware(week.end_date)
+    end_date_aware = make_offset_aware(week.week.end_date)
     current_time_aware = datetime.now(timezone.utc)
-    
+    print(week.track.iracing_id)
     if end_date_aware > current_time_aware:
-        data = await g61.get_laps(week.car_id, week.track_id, week.start_date, garage_client)
+        data = await g61.get_laps(week.car.garage61_car_id, week.track.garage61_id, week.week.start_date, garage_client)
     else:
         # database result laps
-        data = await g61.get_laps(week.car_id, week.track_id, week.start_date, garage_client) 
+        data = await g61.get_laps(week.car.garage61_car_id, week.track.garage61_id, week.start_date, garage_client) 
     
     return data
 

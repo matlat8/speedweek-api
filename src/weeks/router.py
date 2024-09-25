@@ -31,4 +31,5 @@ async def get_garage61_laps(week_id: int,
                             db = Depends(get_db_session),
                             garage_client: httpx.AsyncClient = Depends(get_garage_client)):
     week = await get_week_laps(db=db, garage_client=garage_client, week_id=week_id)
+    await db.commit()
     return {"data": week}

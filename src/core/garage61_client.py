@@ -40,6 +40,7 @@ async def get_garage_tokens(db: AsyncSession,
     return result.scalars().first()
 
 async def refresh_garage_access_token(tokens: Garage61User) -> Garage61User:
+    print('we gotta refresh this token....')
     url = 'https://garage61.net/api/oauth/token'
     data = {
         'grant_type': 'refresh_token',
@@ -58,4 +59,5 @@ async def refresh_garage_access_token(tokens: Garage61User) -> Garage61User:
         tokens.garage61_access_token = response.json()['access_token']
         tokens.garage61_refresh_token = response.json()['refresh_token']
         tokens.garage61_access_token_expires = datetime.datetime.utcnow() + datetime.timedelta(seconds=response.json()['expires_in'])
+        print(response.content)
         return tokens
