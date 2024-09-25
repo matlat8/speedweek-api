@@ -24,7 +24,7 @@ DATABASE_URL = (
 
 # Engine Creation
 engine = create_async_engine(
-    DATABASE_URL, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=300, pool_pre_ping=True, echo=True
+    DATABASE_URL, pool_size=10, max_overflow=20, pool_timeout=30, pool_recycle=300, pool_pre_ping=True
 )
 
 # Session Factory
