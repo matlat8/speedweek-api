@@ -23,7 +23,7 @@ async def create_league(league: NewLeague, db = Depends(get_db_session), user: U
 async def get_league(league_id: int, user: User = Depends(current_active_user), db = Depends(get_db_session)):
     league = await get_a_league(db=db, league_id=league_id)
     #league_members = await get_league_members(db=db, league_id=league_id)
-    return {"info": league}
+    return {"data": league}
 
 @leagues.get("/{league_id}/members")
 async def get_league_members_route(league_id: int, db = Depends(get_db_session)):

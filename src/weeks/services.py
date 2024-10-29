@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from datetime import datetime, timezone
 
 from uuid import UUID
+import src.log_config
 from src.leagues.crud import get_league_members
 from src.weeks.models import Week
 from src.weeks.schemas import NewWeek
@@ -64,7 +65,7 @@ async def get_week_laps(db: AsyncSession, garage_client: httpx.AsyncClient, week
         data = await g61.get_laps(week.car.garage61_car_id, week.track.garage61_id, week.week.start_date, garage_client)
     else:
         # database result laps
-        data = await g61.get_laps(week.car.garage61_car_id, week.track.garage61_id, week.start_date, garage_client) 
+        data = await g61.get_laps(week.car.garage61_car_id, week.track.garage61_id, week.week.start_date, garage_client) 
     
-    return data
+    return data['items']
 
